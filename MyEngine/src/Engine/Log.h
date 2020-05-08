@@ -20,11 +20,11 @@ namespace MyEngine {
 }
 
 //Core Log macros
-#define ENG_CORE_ERROR(...)		MyEngine::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define ENG_CORE_WARN(...)		MyEngine::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define ENG_CORE_INFO(...)		MyEngine::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define ENG_CORE_TRACE(...)		MyEngine::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define ENG_CORE_FATAL(...)		MyEngine::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#define ENG_CORE_ERROR(...)		::MyEngine::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define ENG_CORE_WARN(...)		::MyEngine::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define ENG_CORE_INFO(...)		::MyEngine::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define ENG_CORE_TRACE(...)		::MyEngine::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define ENG_CORE_FATAL(...)		::MyEngine::Log::GetCoreLogger()->fatal(__VA_ARGS__)
 
 //Client Log macros
 #define ENG_Client_ERROR(...)	::MyEngine::Log::GetClientLogger()->error(__VA_ARGS__)
