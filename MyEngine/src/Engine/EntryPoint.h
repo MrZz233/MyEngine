@@ -8,7 +8,7 @@ int main(int argc,char** argv)
 {
 	MyEngine::Log::Init();
 	ENG_CORE_WARN("Initialization success!");
-	ENG_Client_INFO("Hello Log!");
+	ENG_ClIENT_INFO("Hello Log!");
 	auto app = MyEngine::CreatApplication();
 	app->Run();
 	delete app;

@@ -1,8 +1,8 @@
 #pragma once
 
-#include<memory>
 #include"Core.h"
 #include"spdlog/spdlog.h"
+#include"spdlog/fmt/ostr.h"
 
 namespace MyEngine {
 
@@ -27,9 +27,9 @@ namespace MyEngine {
 #define ENG_CORE_FATAL(...)		::MyEngine::Log::GetCoreLogger()->fatal(__VA_ARGS__)
 
 //Client Log macros
-#define ENG_Client_ERROR(...)	::MyEngine::Log::GetClientLogger()->error(__VA_ARGS__)
-#define ENG_Client_WARN(...)	::MyEngine::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define ENG_Client_INFO(...)	::MyEngine::Log::GetClientLogger()->info(__VA_ARGS__)
-#define ENG_Client_TRACE(...)	::MyEngine::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define ENG_Client_FATAL(...)	::MyEngine::Log::GetClientLogger()->fatal(__VA_ARGS__)
+#define ENG_ClIENT_ERROR(...)	::MyEngine::Log::GetClientLogger()->error(__VA_ARGS__)
+#define ENG_ClIENT_WARN(...)	::MyEngine::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define ENG_ClIENT_INFO(...)	::MyEngine::Log::GetClientLogger()->info(__VA_ARGS__)
+#define ENG_ClIENT_TRACE(...)	::MyEngine::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define ENG_ClIENT_FATAL(...)	::MyEngine::Log::GetClientLogger()->fatal(__VA_ARGS__)
 
