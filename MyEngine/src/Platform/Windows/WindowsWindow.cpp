@@ -1,9 +1,17 @@
 #include "Engpch.h"
 #include "WindowsWindow.h"
+#include <Engine\Events\ApplicationEvent.h>
+#include <Engine\Events\KeyEvent.h>
+#include <Engine\Events\MouseEvent.h>
 
 namespace MyEngine {
 	
 	static bool s_GLFWInitialized = false;
+
+	static void GLFWErrorCallback(int error, const char* description)
+	{
+		ENG_CORE_ERROR("GLFW ERROR ({0}):{1}",error,description);
+	};
 
 	Window* Window::Create(const WindowProps& props)
 	{
@@ -32,6 +40,7 @@ namespace MyEngine {
 		{
 			int success = glfwInit();
 			ENG_CORE_ASSERT(success, "Could not initialize GLFW!");
+			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
 
@@ -39,6 +48,87 @@ namespace MyEngine {
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
+
+		//Set GLFW callbacks
+		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
+		{
+			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowResizeEvent event(width, height);
+			windowData.EventCallback(event);
+			windowData.Height = height;
+			windowData.Width = width;
+		});
+
+		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) 
+		{
+			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowCloseEvent event;
+			windowData.EventCallback(event);
+		});
+
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+		{
+			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(window);
+			switch (action)
+			{
+				case GLFW_PRESS:
+				{
+					KeyPressedEvent event(key, 0);
+					windowData.EventCallback(event);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					KeyReleasedEvent event(key);
+					windowData.EventCallback(event);
+					break;
+				}	
+				case GLFW_REPEAT:
+				{
+					KeyPressedEvent event(key, 1);
+					windowData.EventCallback(event);
+					break;
+				}
+			}
+		});
+
+		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
+		{
+			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(window);
+			switch (action)
+			{
+				case GLFW_PRESS:
+				{
+					MouseButtonPressedEvent event(button);
+					windowData.EventCallback(event);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					MouseButtonReleasedEvent event(button);
+					windowData.EventCallback(event);
+					break;
+				}	
+			}
+		});
+
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
+		{
+			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(window);
+			MouseScrolledEvent event((float)xOffset, (float)yOffset);
+			windowData.EventCallback(event);
+		});
+
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
+		{
+			//GLFW检测到鼠标位置发生变化会执行这一段代码
+			//生成当前Window信息
+			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(window);
+			MouseMovedEvent event((float)xPos, (float)xPos);
+			//等价于Application::OnEvent(event);
+			//会打印东西
+			windowData.EventCallback(event);
+		});
 	}
 
 	void WindowsWindow::Shutdown()

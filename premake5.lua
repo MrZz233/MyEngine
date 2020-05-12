@@ -62,14 +62,17 @@ project "MyEngine"
 
     filter "configurations:Debug"
         defines "ENG_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
         defines "ENG_RELEASE"
+        buildoptions "/MD"
         optimize "On"
 
     filter "configurations:Dist"
         defines "ENG_DIST"
+        buildoptions "/MD"
         optimize "On"
 
 project "SandBox"
@@ -108,12 +111,15 @@ project "SandBox"
 
     filter "configurations:Debug"
         defines "ENG_DEBUG"
+        buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
         defines "ENG_RELEASE"
+        buildoptions "/MD"
         optimize "On"
 
     filter "configurations:Dist"
         defines "ENG_DIST"
+        buildoptions "/MD"
         optimize "On"

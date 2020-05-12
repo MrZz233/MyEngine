@@ -3,6 +3,7 @@
 #include "Core.h"
 #include "Events/Event.h"
 #include "Window.h"
+#include "LayerStack.h"
 
 namespace MyEngine {
 
@@ -12,10 +13,13 @@ namespace MyEngine {
 		Application();
 		virtual ~Application();
 		void Run();
-
+		void OnEvent(Event& e);
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
 	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
+		LayerStack m_LayerStack;
 	};
 	
 	Application* CreatApplication();

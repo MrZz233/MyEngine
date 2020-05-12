@@ -39,7 +39,6 @@ namespace MyEngine {
 
 	class MYENGINE_API Event
 	{
-		friend class EventDispatcher;
 	public:
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
@@ -50,7 +49,7 @@ namespace MyEngine {
 		{
 			return GetCategoryFlags() & category;
 		}
-	protected:
+	//protected:
 		bool m_Handled = false;
 	};
 
